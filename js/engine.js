@@ -24,7 +24,7 @@ var Engine = (function(global) {
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 500;
+     canvas.width = 500;
     canvas.height = 600;
     doc.body.appendChild(canvas);
 
@@ -54,8 +54,8 @@ var Engine = (function(global) {
     var ratio = canvas.width/canvas.height;
     var width = height * ratio;
     
-    canvas.style.width = width*0.5+'px'; //0.5 multiplier for better rendering
-    canvas.style.height = height*0.5+'px';
+    canvas.style.width = width*0.8+'px'; //0.8 multiplier for better rendering
+    canvas.style.height = height*0.8+'px';
     }
 
     window.addEventListener('load', resize, false);
@@ -119,11 +119,11 @@ var Engine = (function(global) {
         gems.update(dt);
     }
 
-    // Entities colliding check
+    // Entity collision check //
 
     function checkCollisions() {
 
-        //check collision with enemies
+        //* Check collision with enemies //
         for (var enemy = 0; enemy < allEnemies.length; enemy++) {
             if (player.x < allEnemies[enemy].x + 50 && player.x + 50 > allEnemies[enemy].x &&
                 player.y < allEnemies[enemy].y + 50 && player.y + 50 > allEnemies[enemy].y) {
@@ -138,23 +138,21 @@ var Engine = (function(global) {
                 document.getElementById("lives").innerHTML = "Lives left: " + lives;
             }
         }
-
-         //Gems collision
+ //* Gems colliding with player //
         if (player.x < gems.x + 50 && player.x + 50 > gems.x &&
             player.y < gems.y + 50 && player.y + 50 > gems.y) {
             player.water();
             score = score + 50;
         }
-
-        //Princess collision
+        //* Princess colliding with player //
         if (player.x < princess.x + 50 && player.x + 50 > princess.x &&
             player.y < princess.y + 50 && player.y + 50 > princess.y) {
             player.reset();
             score = score + 500;
         }
 
-      
-        //Princess hitting enemies
+
+        //* Princess colliding with bugs //
         for (var enemy = 0; enemy < allEnemies.length; enemy++) {
             if (princess.x < allEnemies[enemy].x + 50 && princess.x + 50 > allEnemies[enemy].x &&
                 princess.y < allEnemies[enemy].y + 50 && princess.y + 50 > allEnemies[enemy].y) {
@@ -231,6 +229,17 @@ var Engine = (function(global) {
 
     }
 
+    /* This function does nothing but it could have been a good place to
+     * handle game reset states - maybe a new game menu or a game over screen
+     * those sorts of things. It's only called once by the init() method.
+     */
+    function reset() {
+        lives = 3;
+        score = 0;
+        level = 0;
+        document.getElementById("level").innerHTML = "Level: " + level;
+        document.getElementById("score").innerHTML = "Score: " + score;
+    }
 
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
